@@ -1,4 +1,4 @@
-# **FRONTEND - GESTION DE PROYECTOS - CICLO IV**
+# **PROJECT UNIVERSE**
 ## **GIRLS CODE KCA**
 
 |**AUTORES** | **ROLES** | 
@@ -7,7 +7,7 @@
 |**[Keidy Mercado Sierra](https://github.com/kemesy07)**  | Product Owner - Analista - Desarrolladora |
 
 ## **DESCRIPCION DEL PROYECTO**
-Pagina Web que permite la gestión de proyectos de investigación. 
+Project Universe es una pagina web que permite la gestión de proyectos de investigación. 
 
 ## **DESCRIPCION DEL FRONTEND**
 ### **INTERFACES GRÁFICAS**
