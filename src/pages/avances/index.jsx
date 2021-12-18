@@ -26,14 +26,15 @@ const IndexAvance = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className='flex flex-col p-10 items-center w-full'>
+    <div className='flex flex-col p-10 items-center w-full bg-blue-100'>
       <h1 className='text-2xl font-bold text-gray-900 my-2'>
         Avances para el proyecto {projectid}
       </h1>
       <button
         onClick={() => setOpenDialog(true)}
-        className='flex-end bg-indigo-500'
+        className='w-64 mt-6 h-10 bg-pink-600 text-white font-semibold text-xl mb-6 rounded-lg hover:bg-pink-400  shadow-md disabled:opacity-50 disabled:bg-gray-700'
         type='button'
+
       >
         Crear nuevo avance
       </button>
@@ -52,7 +53,7 @@ const IndexAvance = () => {
 const Avance = ({ avance }) => {
   const [openDialog, setOpenDialog] = useState(false);
   return (
-    <div className='flex flex-col bg-gray-200 shadow-lg p-3 rounded-xl m-2'>
+    <div className='flex flex-col bg-green-400 shadow-lg p-3 rounded-xl m-2 basis-1/2'>
       <span>
         <strong>Avance:</strong> {avance.descripcion}
       </span>
@@ -86,15 +87,17 @@ const Avance = ({ avance }) => {
         )}
       </div>
       <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
+        <center>
         <button
           onClick={() => {
             setOpenDialog(true);
           }}
-          className='bg-indigo-500 p-2  my-2 rounded-lg w-48 text-white hover:bg-indigo-700'
+          className='w-64 mt-6 h-10 bg-pink-600 text-white font-semibold text-xl mb-6 rounded-lg hover:bg-pink-400  shadow-md disabled:opacity-50 disabled:bg-gray-700'
           type='button'
         >
           Agregar observacion
         </button>
+        </center>
       </PrivateComponent>
       <Dialog
         open={openDialog}
@@ -140,11 +143,14 @@ const AgregarObservacion = ({ _id, setOpenDialog }) => {
         {/* <Input name='observacion' type='text' required /> */}
         <div className='flex flex-col'>
           <textarea name='observacion' className='input my-2' />
+          <center>
           <ButtonLoading
             text='Agregar observacion'
             loading={loading}
             disabled={Object.keys(formData).length === 0}
+            className='w-64 mt-6 h-10 bg-pink-600 text-white font-semibold text-xl mb-6 rounded-lg hover:bg-pink-400  shadow-md disabled:opacity-50 disabled:bg-gray-700'
           />
+          </center>
         </div>
       </form>
     </div>
@@ -179,11 +185,14 @@ const CrearAvance = ({ proyecto, setOpenDialog }) => {
       <form ref={form} onChange={updateFormData} onSubmit={submitForm}>
         <Input name='descripcion' label='Descripción' type='text' />
         <Input name='fecha' label='Fecha' type='date' />
+        <center>
         <ButtonLoading
           text='Crear Avance'
           loading={loading}
           disabled={Object.keys(formData).length === 0}
+          className='w-40 mt-6 h-10 bg-pink-600 text-white font-semibold text-xl mb-6 rounded-lg hover:bg-pink-400  shadow-md disabled:opacity-50 disabled:bg-gray-700'
         />
+        </center>
       </form>
     </div>
   );

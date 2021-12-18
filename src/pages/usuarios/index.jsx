@@ -36,7 +36,7 @@ const IndexUsuarios = () => {
 
   return (
     <PrivateRoute roleList={['ADMINISTRADOR', 'LIDER']}>
-      <div className='bg-white '>
+      <div className='bg-blue-100 '>
         
         <center> <h1 class="text-3xl black-600 font-black "> INFORMACION DE LOS USUARIOS </h1> </center>
         <center><a href='https://postimages.org/' target='_blank'><img src='https://i.postimg.cc/L8PQQtkQ/klipartz-com.png' border='0' alt='klipartz-com' high='400' width='400'/></a> </center>

@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import PrivateRoute from 'components/PrivateRoute';
 import { GET_INSCRIPCIONES } from 'graphql/inscripciones/queries';
 import { APROBAR_INSCRIPCION } from 'graphql/inscripciones/mutaciones';
-import { RECHAZAR_INSCRIPCION } from 'graphql/inscripciones/mutaciones';
+//import { RECHAZAR_INSCRIPCION } from 'graphql/inscripciones/mutaciones';
 import ButtonLoading from 'components/ButtonLoading';
 import { toast } from 'react-toastify';
 import {
@@ -21,7 +21,7 @@ const IndexInscripciones = () => {
   if (loading) return <div>Loading...</div>;
   return (
     <PrivateRoute roleList={['ADMINISTRADOR', 'LIDER']}>
-      <div className='p-10 font-bold text-black bg-white '>
+      <div className='p-10 font-bold text-black bg-blue-100'>
         <div className="text-3xl black-600 font-black"><center>LISTA DE INSCRIPCIONES</center></div>
         &nbsp;
         <a href='https://postimages.org/' target='_blank'><center><img src='https://i.postimg.cc/WbHssL9b/klipartz-com-2.png' border='0' alt='klipartz-com-2' width='400'/></center></a>
@@ -65,7 +65,6 @@ const AccordionInscripcion = ({ data, titulo, refetch = () => {} }) => {
 
 const Inscripcion = ({ inscripcion, refetch }) => {
   const [aprobarInscripcion, { data, loading, error }] = useMutation(APROBAR_INSCRIPCION);
-  const [rechazarInscripcion,{data:mutationData, loading: mutationLoading}] = useMutation(RECHAZAR_INSCRIPCION);
 
   useEffect(() => {
     if (data) {
@@ -73,13 +72,6 @@ const Inscripcion = ({ inscripcion, refetch }) => {
       refetch();
     }
   }, [data]);
-
-  useEffect(() => {
-    if(mutationData && mutationData.rechazarInscripcion){
-      toast.success("Inscripcion rechazada con exito")
-      refetch()
-    }
-  },[mutationData])
 
   useEffect(() => {
     if (error) {
@@ -93,42 +85,36 @@ const Inscripcion = ({ inscripcion, refetch }) => {
         aprobarInscripcionId: inscripcion._id,
       },
     });
-
-    rechazarInscripcion({
-      variables: {
-        _id: inscripcion._id,
-      },
-    });
   };
- 
+
+  
 
   return (
     <div className='bg-purple-900 text-white flex flex-col p-6 m-2 rounded-lg shadow-xl'>
       <span>{inscripcion.proyecto.nombre}</span>
-      <span className="capitalize">{inscripcion.estudiante.nombre + " " + inscripcion.estudiante.apellido}</span>
+      <span>{inscripcion.estudiante.nombre}</span>
       <span>{inscripcion.estado}</span>
       {inscripcion.estado === 'PENDIENTE' && (
-        <>
-          <ButtonLoading
-            onClick={() => {
-              aprobarInscripcion();
-            }}
-            text='Aprobar'
-            loading={loading}
-            disabled={false}
-            className={"w-32 h-10 bg-pink-600 text-white font-semibold text-xl mb-6 rounded-lg hover:bg-pink-400  shadow-md disabled:opacity-50 disabled:bg-gray-700"}
-            
-          />
-          <ButtonLoading
-            onClick={() => {
-              rechazarInscripcion();
-            }}
-            text='Rechazar'
-            loading={loading}
-            disabled={false}
-            className={"w-32 h-10 bg-pink-600 text-white font-semibold text-xl rounded-lg hover:bg-pink-400  shadow-md disabled:opacity-50 disabled:bg-gray-700"}
-          />
-        </>
+        <ButtonLoading 
+          onClick={() => {
+            cambiarEstadoInscripcion();
+          }}
+          text='Aprobar Inscripcion'
+          loading={loading}
+          disabled={false}
+          className={"w-64 h-10 bg-pink-600 text-white font-semibold text-xl mb-6 rounded-lg hover:bg-pink-400  shadow-md disabled:opacity-50 disabled:bg-gray-700"}
+        />
+      )}
+      {inscripcion.estado === 'PENDIENTE' && (
+        <ButtonLoading 
+          onClick={() => {
+            cambiarEstadoInscripcion();
+          }}
+          text='Rechazar Inscripcion'
+          loading={loading}
+          disabled={false}
+          className={"w-64 h-10 bg-pink-600 text-white font-semibold text-xl mb-6 rounded-lg hover:bg-pink-400  shadow-md disabled:opacity-50 disabled:bg-gray-700"}
+        />
       )}
     </div>
   );

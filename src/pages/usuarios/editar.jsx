@@ -55,7 +55,7 @@ const EditarUsuario = () => {
   if (queryLoading) return <div>Cargando....</div>;
 
   return (
-    <div className='flew flex-col w-full h-full items-center justify-center p-5 bg-white font-bold'>
+    <div className='flew flex-col w-full h-full items-center justify-center p-5 bg-blue-100 font-bold'>
       <Link to='/usuarios'>
         <i className='fas fa-arrow-left fa-3x text-black cursor-pointer text-xl hover:text-gray-900 ' />
       </Link>

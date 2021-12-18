@@ -54,7 +54,7 @@ const NuevoProyecto = () => {
   if (loading) return <div>...Loading</div>;
 
   return (
-    <div className='p-5 flex flex-col items-center bg-blue-200'>
+    <div className='p-5 flex flex-col items-center bg-blue-100'>
       <div className='self-start'>
         <Link to='/proyectos'>
           <i className='fas fa-arrow-left fa-2x' />

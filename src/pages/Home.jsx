@@ -4,7 +4,7 @@ const Home = () => {
   return (
     <div>
 
-      <div className='bg-white'><a href='https://postimg.cc/Xrh6Fqds' target='_blank'><center><img src='https://i.postimg.cc/1zRmkNt1/wepik-20211110-74944.jpg' border='0' alt='wepik-20211110-74944'/></center></a></div>
+      <div className='bg-blue-100'><a href='https://postimg.cc/Xrh6Fqds' target='_blank'><center><img src='https://i.postimg.cc/1zRmkNt1/wepik-20211110-74944.jpg' border='0' alt='wepik-20211110-74944'/></center></a></div>
       
     </div>
   );

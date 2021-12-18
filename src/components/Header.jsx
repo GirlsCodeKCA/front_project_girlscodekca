@@ -10,8 +10,8 @@ const Header = () => {
     console.log(userData)
 
     return (
-        <header className="bg-white py-2 sticky hidden md:flex justify-end items-center px-4 border-l-2 border-white z-10 font-bold">
-            <div className=" bg-white pb-1">
+        <header className="bg-blue-100 py-2 sticky hidden md:flex justify-end items-center px-4 border-l-2 border-white z-10 font-bold">
+            <div className=" bg-blue-100 pb-1">
             <span className="capitalize">{userData.nombre} {userData.apellido}</span> - {userData.rol}
             <i 
             onClick={()=>{navigate(`/usuarios/editar/${userData._id}`)}}

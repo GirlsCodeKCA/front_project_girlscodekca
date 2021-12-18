@@ -5,7 +5,7 @@ import DropDown from 'components/Dropdown';
 import Input from 'components/Input';
 import { Dialog } from '@mui/material';
 import { Enum_EstadoProyecto } from 'utils/enums';
-//import { Enum_FaseProyecto } from 'utils/enums';
+import { Enum_FaseProyecto } from 'utils/enums';
 //import presupuesto from 'pages/proyectos/Index';
 import ButtonLoading from 'components/ButtonLoading';
 import { EDITAR_PROYECTO } from 'graphql/proyectos/mutations';
@@ -27,22 +27,42 @@ import { Enum_TipoObjetivo } from 'utils/enums';
 import { EDITAR_OBJETIVO } from 'graphql/proyectos/mutations';
 
 const IndexProyectos = () => {
-  const { data: queryData, loading } = useQuery(PROYECTOS);
+  const { userData } = useUser()
+
+  const { data: queryData, loading, error, refetch } = useQuery(PROYECTOS);
+  const [dataFiltrada, setDataFiltrada] = useState([])
 
   useEffect(() => {
-    console.log('datos proyecto', queryData);
-  }, [queryData]);
+    console.log("Haciendo refetching");
+    refetch()
+  }, [refetch])
+
+  useEffect(() => {
+
+    if (queryData && queryData.Proyectos) {
+      if (userData.rol === "ADMINISTRADOR") {
+        setDataFiltrada(queryData.Proyectos)
+      } else if (userData.rol === "LIDER") {
+        setDataFiltrada(queryData.Proyectos.filter(e => e.lider._id === userData._id))
+      } else if (userData.rol === "ESTUDIANTE") {
+        setDataFiltrada(queryData.Proyectos.filter(e => e.estado === "ACTIVO"))
+      }
+    }
+
+  }, [queryData,userData]);
 
   if (loading) return <div>Cargando...</div>;
 
   if (queryData.Proyectos) {
     return (
-      <div className='p-10 flex flex-col'>
+      <div className='p-10 flex flex-col bg-blue-100'>
         <div className='flex w-full items-center justify-center'>
-          <h1 className="text-3xl black-600 font-black">LISTA DE PROYECTOS</h1>
+          <h1 className='text-3xl font-bold text-gray-900'>
+            {`${userData.rol === "LIDER" ? "MIS PROYECTOS" : userData.rol === "ADMINISTRADOR" ? "LISTA DE PROYECTOS CREADOS" : "PROYECTOS DISPONIBLES"}`}
+          </h1>
         </div>
-        &nbsp;
-        <a href='https://postimg.cc/Mvwm2jRn' target='_blank'><center><img src='https://i.postimg.cc/jdwgfHS4/klipartz-com-3.png' border='0' alt='klipartz-com-3' width='500'/></center></a>
+
+        <a href='https://postimages.org/' target='_blank'><center><img src='https://i.postimg.cc/RhHJ8DM0/klipartz-com.png' border='0' alt='klipartz-com' height='300' width='400'/></center></a>
         <PrivateComponent roleList={['ADMINISTRADOR', 'LIDER']}>
           <div className='my-0 self-end'>
             <button className='bg-indigo-500 text-white p-2 rounded-lg shadow-lg hover:bg-indigo-400 font-bold'>
@@ -69,18 +89,20 @@ const AccordionProyecto = ({ proyecto }) => {
         <AccordionSummaryStyled expandIcon={<i className='fas fa-chevron-down' />}>
           <div className='flex w-full justify-between'>
             <div className='uppercase font-bold text-black '>
-              {proyecto.nombre} - {proyecto.estado} 
+              {proyecto.nombre} - {proyecto.estado} - {proyecto.fase}
             </div>
           </div>
         </AccordionSummaryStyled>
         <AccordionDetailsStyled>
           <PrivateComponent roleList={['ADMINISTRADOR']}>
-            <i
+            <button
+              type='button'
               className='mx-4 fas fa-pen-square fa-3x text-blue-500 hover:text-pink-400'
               onClick={() => {
                 setShowDialog(true);
               }}
-            />
+            >
+            </button>
           </PrivateComponent>
           <PrivateComponent roleList={['ESTUDIANTE']}>
             <InscripcionProyecto
@@ -300,7 +322,20 @@ const InscripcionProyecto = ({ idProyecto, estado, inscripciones }) => {
   return (
     <>
       {estadoInscripcion !== '' ? (
-        <span>Ya estas inscrito en este proyecto y el estado es {estadoInscripcion}</span>
+        <div className='flex flex-col items-start'>
+        <span>
+          Ya estas inscrito en este proyecto y el estado es{' '}
+          {estadoInscripcion}
+        </span>
+        {estadoInscripcion === 'ACEPTADO' && (
+          <Link
+            to={`/avances/`}
+            className='w-48 h-10 bg-pink-600 text-white font-semibold text-xl mb-6 rounded-lg hover:bg-pink-400  shadow-md disabled:opacity-50 disabled:bg-gray-700'
+          >
+            <center>Visualizar Avances</center>
+          </Link>
+        )}
+        </div>
       ) : (
         <ButtonLoading
           onClick={() => confirmarInscripcion()}
